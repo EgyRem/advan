@@ -1,0 +1,59 @@
+{
+  "admin": {
+    "description": "Portofolio contoh untuk user admin.",
+    "items": [
+      {
+        "type": "file",
+        "filename": "example-image.jpg",
+        "originalname": "example-image.jpg",
+        "mimetype": "image/jpeg",
+        "url": "/uploads/example-image.jpg"
+      },
+      {
+        "type": "file",
+        "filename": "example-video.mp4",
+        "originalname": "example-video.mp4",
+        "mimetype": "video/mp4",
+        "url": "/uploads/example-video.mp4"
+      }
+    ]
+  },
+  "ram": {
+    "description": "qwqwqwq",
+    "items": [
+      {
+        "type": "file",
+        "filename": "1758159415721.png",
+        "originalname": "Cuplikan layar 2025-03-04 122351.png",
+        "mimetype": "image/png",
+        "url": "/uploads/1758159415721.png"
+      },
+      {
+        "type": "file",
+        "filename": "1758165866571.jpg",
+        "originalname": "81bfa3e6b3f7d6498625cd5d054855de.jpg",
+        "mimetype": "image/jpeg",
+        "url": "/uploads/1758165866571.jpg"
+      },
+      {
+        "type": "file",
+        "filename": "1758174826605.jpg",
+        "originalname": "7e4e58a987b8198cd929453fb80b02c2.jpg",
+        "mimetype": "image/jpeg",
+        "url": "/uploads/1758174826605.jpg"
+      }
+    ]
+  },
+  "rem": {
+    "description": "wwaw",
+    "items": [
+      {
+        "type": "file",
+        "filename": "1758242746865.jpg",
+        "originalname": "85fe97979a97db08cacde2e735107d90.jpg",
+        "mimetype": "image/jpeg",
+        "url": "/uploads/1758242746865.jpg"
+      }
+    ]
+  }
+}

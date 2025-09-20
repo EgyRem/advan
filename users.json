@@ -1,0 +1,77 @@
+[
+  {
+    "username": "admin",
+    "password": "admin",
+    "profile_photo": "1758026694761.jpg",
+    "createdAt": "2025-09-16T12:44:54.822Z",
+    "lastLogin": "2025-09-19T02:25:29.204Z",
+    "lastLogout": "2025-09-16T12:47:57.435Z",
+    "role": "member",
+    "whatsapp": "08123456789",
+    "instagram": "@admin"
+  },
+  {
+    "username": "rem",
+    "password": "rem",
+    "profile_photo": "1758159587242.png",
+    "createdAt": "2025-09-16T13:14:24.068Z",
+    "lastLogin": "2025-09-18T23:26:14.228Z",
+    "lastLogout": "2025-09-16T14:19:21.706Z",
+    "role": "member",
+    "whatsapp": "082229780901",
+    "instagram": "@egyrem"
+  },
+  {
+    "username": "advan",
+    "password": "advan",
+    "profile_photo": null,
+    "createdAt": "2025-09-17T04:58:13.473Z",
+    "lastLogin": "2025-09-19T02:26:14.120Z",
+    "lastLogout": null,
+    "role": "admin",
+    "whatsapp": null,
+    "instagram": null
+  },
+  {
+    "username": "ram",
+    "password": "ram",
+    "profile_photo": "1758175204870.jpg",
+    "createdAt": "2025-09-17T05:16:38.703Z",
+    "lastLogin": "2025-09-18T23:25:48.789Z",
+    "lastLogout": null,
+    "role": "admin",
+    "whatsapp": "8228822882",
+    "instagram": null
+  },
+  {
+    "username": "alya",
+    "password": "alya",
+    "profile_photo": "1758091544111.jpg",
+    "createdAt": "2025-09-17T06:45:44.215Z",
+    "lastLogin": "2025-09-17T06:46:35.587Z",
+    "lastLogout": null,
+    "role": "member",
+    "whatsapp": null,
+    "instagram": null
+  },
+  {
+    "username": "lucia",
+    "password": "lucia",
+    "profile_photo": "1758183273883.jpg",
+    "createdAt": "2025-09-18T08:14:33.895Z",
+    "lastLogin": "2025-09-18T13:33:57.064Z",
+    "lastLogout": null,
+    "role": "member"
+  },
+  {
+    "username": "egy",
+    "password": "egy",
+    "profile_photo": "1758183424045.jpg",
+    "createdAt": "2025-09-18T08:17:04.047Z",
+    "lastLogin": "2025-09-18T14:07:22.594Z",
+    "lastLogout": null,
+    "role": "admin",
+    "whatsapp": "1212211212212",
+    "instagram": null
+  }
+]

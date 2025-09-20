@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Register</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .sidebar {
+            width: 220px;
+            background-color: #2c3e50;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding-top: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .sidebar a {
+            color: white;
+            padding: 15px 20px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s;
+        }
+        .sidebar a:hover {
+            background-color: #34495e;
+        }
+        .sidebar .user-info {
+            margin-top: auto;
+            padding: 20px;
+            text-align: center;
+        }
+        .sidebar .user-info img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        h1 {
+            margin-top: 0;
+        }
+        form {
+            max-width: 300px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            margin-top: 15px;
+            padding: 10px;
+            width: 100%;
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #34495e;
+        }
+        /* Dark mode styles */
+        body.dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        body.dark-mode .sidebar {
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+        }
+        body.dark-mode .sidebar a {
+            color: #e0e0e0;
+        }
+        body.dark-mode .sidebar a:hover {
+            background-color: #333333;
+        }
+        body.dark-mode .content {
+            background-color: #181818;
+            color: #e0e0e0;
+        }
+        body.dark-mode .content h1 {
+            color: #f8f9fa;
+        }
+        body.dark-mode .content label, body.dark-mode .content button {
+            color: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <nav class="sidebar">
+        <a href="index.html">Home</a>
+         <a href="profil.html">Profil</a>
+        <a href="portfolio.html">Portofolio</a>
+        <a href="chat.html">Chat</a>
+        <a href="messages.html">Messages</a>
+        <a href="settings.html">Settings</a>
+        <a href="login.html">Login</a>
+
+    </nav>
+    <main class="content">
+        <h1>Buat Akun</h1>
+        <form id="registerForm" enctype="multipart/form-data">
+            <label for="new_username">Nama Pengguna:</label>
+            <input type="text" id="new_username" name="new_username" required />
+            <label for="new_password">Kata Sandi:</label>
+            <input type="password" id="new_password" name="new_password" required />
+            <label for="confirm_password">Konfirmasi Kata Sandi:</label>
+            <input type="password" id="confirm_password" name="confirm_password" required />
+            <label for="profile_photo">Foto Profil:</label>
+            <input type="file" id="profile_photo" name="profile_photo" accept="image/*" />
+            <button type="submit">Buat Akun</button>
+        </form>
+        <script src="theme.js"></script>
+        <script>
+            // Load dark mode preference
+            if (localStorage.getItem('darkMode') === 'enabled') {
+                document.body.classList.add('dark-mode');
+            }
+
+            document.getElementById('registerForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                const response = await fetch('/register', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+                alert(result.message);
+                if (response.ok) {
+                    window.location.href = 'login.html';
+                }
+            });
+        </script>
+    </main>
+</body>
+</html>

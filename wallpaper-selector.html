@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pilih Wallpaper</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .sidebar {
+            width: 220px;
+            background-color: #2c3e50;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding-top: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .sidebar a {
+            color: white;
+            padding: 15px 20px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s;
+        }
+        .sidebar a:hover {
+            background-color: #34495e;
+        }
+        .sidebar .user-info {
+            margin-top: auto;
+            padding: 20px;
+            text-align: center;
+        }
+        .sidebar .user-info img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        h1 {
+            margin-top: 0;
+        }
+        .wallpaper-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+        }
+        .wallpaper-item {
+            position: relative;
+            cursor: pointer;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: border-color 0.3s;
+        }
+        .wallpaper-item.selected {
+            border-color: #2980b9;
+        }
+        .wallpaper-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+        .apply-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .apply-btn:hover {
+            background-color: #21618c;
+        }
+        /* Dark mode styles */
+        body.dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        body.dark-mode .sidebar {
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+        }
+        body.dark-mode .sidebar a {
+            color: #e0e0e0;
+        }
+        body.dark-mode .sidebar a:hover {
+            background-color: #333333;
+        }
+        body.dark-mode .content {
+            background-color: #181818;
+            color: #e0e0e0;
+        }
+        body.dark-mode .content h1 {
+            color: #f8f9fa;
+        }
+        body.dark-mode .content button {
+            color: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <nav class="sidebar">
+        <a href="index.html">Home</a>
+         <a href="profil.html">Profil</a>
+         <a href="portfolio.html">Portofolio</a>
+         <a href="chat.html">Chat</a>
+        <a href="messages.html">Messages</a>
+        <a href="settings.html">Settings</a>
+        <a href="login.html">Login</a>
+        <div class="user-info" id="userInfo" style="display: none;">
+            <img id="userPhoto" src="" alt="Profile Photo">
+            <p id="userName"></p>
+        </div>
+    </nav>
+    <main class="content">
+        <h1>Pilih Wallpaper</h1>
+        <div class="wallpaper-grid" id="wallpaperGrid"></div>
+        <button class="apply-btn" id="applyBtn">Terapkan Wallpaper</button>
+    </main>
+    <script src="theme.js"></script>
+    <script>
+        let selectedWallpaper = null;
+
+        // Load dark mode preference
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.body.classList.add('dark-mode');
+        }
+
+        // Display user info if logged in
+        const username = localStorage.getItem('username');
+        const photo = localStorage.getItem('photo');
+        if (username) {
+            document.getElementById('userInfo').style.display = 'block';
+            document.getElementById('userName').textContent = username;
+            if (photo) {
+                document.getElementById('userPhoto').src = '/uploads/' + photo;
+            }
+        }
+
+        // Load wallpapers
+        async function loadWallpapers() {
+            try {
+                const response = await fetch('/wallpapers');
+                const data = await response.json();
+                const grid = document.getElementById('wallpaperGrid');
+                grid.innerHTML = '';
+                data.wallpapers.forEach(wallpaper => {
+                    const item = document.createElement('div');
+                    item.className = 'wallpaper-item';
+                    item.innerHTML = `<img src="${wallpaper.path}" alt="${wallpaper.name}">`;
+                    item.addEventListener('click', () => {
+                        // Remove selected class from all
+                        document.querySelectorAll('.wallpaper-item').forEach(i => i.classList.remove('selected'));
+                        // Add to this
+                        item.classList.add('selected');
+                        selectedWallpaper = wallpaper.path;
+                    });
+                    grid.appendChild(item);
+                });
+            } catch (error) {
+                console.error('Failed to load wallpapers:', error);
+            }
+        }
+
+        // Apply selected wallpaper
+        document.getElementById('applyBtn').addEventListener('click', async () => {
+            if (!selectedWallpaper) {
+                alert('Silakan pilih wallpaper terlebih dahulu.');
+                return;
+            }
+            try {
+                const response = await fetch('/set-wallpaper', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ path: selectedWallpaper })
+                });
+                const data = await response.json();
+                alert(data.message);
+                if (response.ok) {
+                    window.location.href = 'settings.html';
+                }
+            } catch (error) {
+                alert('Gagal menerapkan wallpaper: ' + error.message);
+            }
+        });
+
+        // Load on page load
+        loadWallpapers();
+    </script>
+</body>
+</html>

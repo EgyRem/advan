@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Settings</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .sidebar {
+            width: 220px;
+            background-color: #2c3e50;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding-top: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .sidebar a {
+            color: white;
+            padding: 15px 20px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s;
+        }
+        .sidebar a:hover {
+            background-color: #34495e;
+        }
+        .sidebar .user-info {
+            margin-top: auto;
+            padding: 20px;
+            text-align: center;
+        }
+        .sidebar .user-info img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        h1 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <nav class="sidebar">
+        <a href="index.html">Home</a>
+        <a href="profil.html">Profil</a>
+         <a href="portfolio.html">Portofolio</a>
+         <a href="chat.html">Chat</a>
+        <a href="messages.html">Messages</a>
+        <a href="settings.html">Settings</a>
+        <a href="login.html">Login</a>
+        <div class="user-info" id="userInfo" style="display: none;">
+            <img id="userPhoto" src="" alt="Profile Photo">
+            <p id="userName"></p>
+        </div>
+    </nav>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .sidebar {
+            width: 220px;
+            background-color: #2c3e50;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding-top: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .sidebar a {
+            color: white;
+            padding: 15px 20px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s;
+        }
+        .sidebar a:hover {
+            background-color: #34495e;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        h1 {
+            margin-top: 0;
+        }
+        /* Dark mode styles */
+        body.dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        body.dark-mode .sidebar {
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+        }
+        body.dark-mode .sidebar a {
+            color: #e0e0e0;
+        }
+        body.dark-mode .sidebar a:hover {
+            background-color: #333333;
+        }
+        body.dark-mode .content {
+            background-color: #181818;
+            color: #e0e0e0;
+        }
+        .toggle-switch {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .toggle-switch input[type="checkbox"] {
+            width: 40px;
+            height: 20px;
+            position: relative;
+            appearance: none;
+            background: #c6c6c6;
+            outline: none;
+            border-radius: 20px;
+            transition: background 0.3s;
+            cursor: pointer;
+        }
+        .toggle-switch input[type="checkbox"]:checked {
+            background: #4f46e5;
+        }
+        .toggle-switch input[type="checkbox"]::before {
+            content: "";
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            top: 1px;
+            left: 1px;
+            background: white;
+            transition: 0.3s;
+        }
+        .toggle-switch input[type="checkbox"]:checked::before {
+            left: 21px;
+        }
+        .toggle-switch label {
+            margin-left: 10px;
+            user-select: none;
+        }
+    </style>
+    <main class="content">
+        <h1>Pengaturan</h1>
+        <div style="margin-top: 20px;">
+            <label for="themeSelect">Pilih Tema:</label>
+            <select id="themeSelect" style="margin-left: 10px; padding: 5px;">
+                <option value="light">Terang</option>
+                <option value="dark">Gelap</option>
+                <option value="blue">Biru</option>
+                <option value="green">Hijau</option>
+                <option value="purple">Ungu</option>
+            </select>
+        </div>
+        <div style="margin-top: 10px;">
+            <label for="textColorSelect">Pilih Warna Teks:</label>
+            <select id="textColorSelect" style="margin-left: 10px; padding: 5px;">
+                <option value="default">Default</option>
+                <option value="#ff0000">Merah</option>
+                <option value="#0000ff">Biru</option>
+                <option value="#008000">Hijau</option>
+                <option value="#800080">Ungu</option>
+                <option value="#ffa500">Orange</option>
+                <option value="#000000">Hitam</option>
+                <option value="#ffffff">Putih</option>
+            </select>
+        </div>
+        <div style="margin-top: 10px;">
+            <label for="fontFamilySelect">Pilih Font:</label>
+            <select id="fontFamilySelect" style="margin-left: 10px; padding: 5px;">
+                <option value="Arial, sans-serif">Arial</option>
+                <option value="'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">Segoe UI</option>
+                <option value="'Times New Roman', serif">Times New Roman</option>
+                <option value="'Courier New', monospace">Courier New</option>
+                <option value="'Comic Sans MS', cursive">Comic Sans</option>
+            </select>
+        </div>
+        <div style="margin-top: 10px;">
+            <label for="fontSizeSelect">Ukuran Font:</label>
+            <select id="fontSizeSelect" style="margin-left: 10px; padding: 5px;">
+                <option value="14px">Kecil (14px)</option>
+                <option value="16px">Normal (16px)</option>
+                <option value="18px">Besar (18px)</option>
+                <option value="20px">Sangat Besar (20px)</option>
+            </select>
+        </div>
+        <div style="margin-top: 10px;">
+            <label for="bgUpload">Upload Wallpaper Kustom (Gambar/Video):</label>
+            <input type="file" id="bgUpload" accept="image/*,video/*" style="margin-left: 10px;">
+            <button id="uploadImageBtn" style="margin-left: 10px; padding: 5px 10px; background-color: #2980b9; color: white; border: none; cursor: pointer;">Upload</button>
+        </div>
+        <div style="margin-top: 20px;">
+            <button id="selectWallpaperBtn" style="padding: 10px; background-color: #2980b9; color: white; border: none; cursor: pointer;">Pilih Wallpaper</button>
+        </div>
+        <div id="adminWallpaperManagement" style="display: none; margin-top: 20px;">
+            <h3>Kelola Wallpaper (Admin Only)</h3>
+            <div id="wallpaperListAdmin"></div>
+        </div>
+        <button id="saveSettingsBtn" style="margin-top: 10px; padding: 10px; background-color: #2980b9; color: white; border: none; cursor: pointer;">Simpan Pengaturan</button>
+        <button id="deleteMyAccountBtn" style="margin-top: 10px; padding: 10px; background-color: #c0392b; color: white; border: none; cursor: pointer;">Hapus Akun Saya</button>
+        <button id="logoutBtn" style="margin-top: 20px; padding: 10px; background-color: #e74c3c; color: white; border: none; cursor: pointer;">Logout</button>
+    </main>
+    <script src="theme.js"></script>
+    <script>
+        // Theme select
+        const themeSelect = document.getElementById('themeSelect');
+        const textColorSelect = document.getElementById('textColorSelect');
+        const fontFamilySelect = document.getElementById('fontFamilySelect');
+        const fontSizeSelect = document.getElementById('fontSizeSelect');
+        const bgUpload = document.getElementById('bgUpload');
+
+        // Set initial select value
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        themeSelect.value = savedTheme;
+
+        const savedTextColor = localStorage.getItem('textColor') || 'default';
+        textColorSelect.value = savedTextColor;
+
+        const savedFontFamily = localStorage.getItem('fontFamily') || "Arial, sans-serif";
+        fontFamilySelect.value = savedFontFamily;
+
+        const savedFontSize = localStorage.getItem('fontSize') || '16px';
+        fontSizeSelect.value = savedFontSize;
+
+        themeSelect.addEventListener('change', () => {
+            const selectedTheme = themeSelect.value;
+            setTheme(selectedTheme);
+        });
+
+        textColorSelect.addEventListener('change', () => {
+            const selectedColor = textColorSelect.value;
+            setTextColor(selectedColor);
+        });
+
+        fontFamilySelect.addEventListener('change', () => {
+            const selectedFont = fontFamilySelect.value;
+            setFontFamily(selectedFont);
+        });
+
+        fontSizeSelect.addEventListener('change', () => {
+            const selectedSize = fontSizeSelect.value;
+            setFontSize(selectedSize);
+        });
+
+        bgUpload.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const imageData = e.target.result;
+                    setCustomBg(imageData);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Save settings functionality
+        document.getElementById('saveSettingsBtn').addEventListener('click', () => {
+            const selectedTheme = themeSelect.value;
+            localStorage.setItem('theme', selectedTheme);
+            alert('Pengaturan telah disimpan.');
+        });
+
+        // Upload image functionality
+        document.getElementById('uploadImageBtn').addEventListener('click', async () => {
+            const fileInput = document.getElementById('bgUpload');
+            const file = fileInput.files[0];
+            if (!file) {
+                alert('Silakan pilih file gambar terlebih dahulu.');
+                return;
+            }
+            const formData = new FormData();
+            formData.append('wallpaper', file);
+            try {
+                const response = await fetch('/upload-wallpaper', {
+                    method: 'POST',
+                    body: formData
+                });
+                if (!response.ok) {
+                    throw new Error('Upload gagal');
+                }
+                const data = await response.json();
+                if (data.filePath) {
+                    setCustomBg(data.filePath);
+                    alert('Wallpaper berhasil diupload dan diterapkan.');
+                } else {
+                    alert('Upload gagal: tidak ada path file diterima');
+                }
+            } catch (error) {
+                alert('Upload gagal: ' + error.message);
+            }
+        });
+
+        // Display user info if logged in
+        const username = localStorage.getItem('username');
+        const photo = localStorage.getItem('photo');
+        if (username) {
+            document.getElementById('userInfo').style.display = 'block';
+            document.getElementById('userName').textContent = username;
+            if (photo) {
+                document.getElementById('userPhoto').src = '/uploads/' + photo;
+            }
+        }
+
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            const username = localStorage.getItem('username');
+            if (username) {
+                await fetch('/logout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username })
+                });
+            }
+            localStorage.removeItem('username');
+            localStorage.removeItem('photo');
+            localStorage.removeItem('role');
+            window.location.href = 'login.html';
+        });
+
+        // Delete my account functionality
+        document.getElementById('deleteMyAccountBtn').addEventListener('click', async () => {
+            const username = localStorage.getItem('username');
+            if (username && confirm('Apakah Anda yakin ingin menghapus akun Anda?')) {
+                const res = await fetch('/delete-account', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username })
+                });
+                const result = await res.json();
+                alert(result.message);
+                if (res.ok) {
+                    localStorage.removeItem('username');
+                    localStorage.removeItem('photo');
+                    localStorage.removeItem('role');
+                    window.location.href = 'login.html';
+                }
+            }
+        });
+
+        // Admin wallpaper management
+        if (localStorage.getItem('role') === 'admin') {
+            document.getElementById('adminWallpaperManagement').style.display = 'block';
+            loadWallpapersAdmin();
+        }
+
+        async function loadWallpapersAdmin() {
+            try {
+                const response = await fetch('/wallpapers');
+                const data = await response.json();
+                const list = document.getElementById('wallpaperListAdmin');
+                list.innerHTML = '';
+
+                // Create container for checkboxes and media
+                const container = document.createElement('div');
+                container.style.display = 'flex';
+                container.style.flexWrap = 'wrap';
+                container.style.gap = '10px';
+
+                data.wallpapers.forEach(w => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.style.display = 'flex';
+                    itemDiv.style.flexDirection = 'column';
+                    itemDiv.style.alignItems = 'center';
+                    itemDiv.style.width = '120px';
+
+                    const media = w.type === 'video' ? document.createElement('video') : document.createElement('img');
+                    media.src = w.path;
+                    media.style.width = '100px';
+                    media.style.height = '100px';
+                    media.style.objectFit = 'cover';
+                    media.style.marginBottom = '5px';
+                    if (media.tagName === 'VIDEO') {
+                        media.muted = true;
+                        media.loop = true;
+                        media.play().catch(() => {});
+                    }
+
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.value = w.path;
+                    checkbox.style.cursor = 'pointer';
+
+                    itemDiv.appendChild(media);
+                    itemDiv.appendChild(checkbox);
+                    container.appendChild(itemDiv);
+                });
+
+                list.appendChild(container);
+
+                // Add delete selected button
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = 'Hapus Wallpaper Terpilih';
+                deleteBtn.style.marginTop = '10px';
+                deleteBtn.style.padding = '10px 20px';
+                deleteBtn.style.backgroundColor = '#e74c3c';
+                deleteBtn.style.color = 'white';
+                deleteBtn.style.border = 'none';
+                deleteBtn.style.cursor = 'pointer';
+
+                deleteBtn.onclick = async () => {
+                    const checkedBoxes = container.querySelectorAll('input[type="checkbox"]:checked');
+                    if (checkedBoxes.length === 0) {
+                        alert('Pilih minimal satu wallpaper untuk dihapus.');
+                        return;
+                    }
+                    if (!confirm(`Hapus ${checkedBoxes.length} wallpaper terpilih?`)) {
+                        return;
+                    }
+                    try {
+                        for (const checkbox of checkedBoxes) {
+                            const res = await fetch('/delete-wallpaper', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ path: checkbox.value })
+                            });
+                            if (!res.ok) {
+                                const text = await res.text();
+                                alert('Error saat menghapus: ' + text);
+                                return;
+                            }
+                        }
+                        alert('Wallpaper terpilih berhasil dihapus.');
+                        loadWallpapersAdmin();
+                    } catch (e) {
+                        alert('Error: ' + e.message);
+                    }
+                };
+
+                list.appendChild(deleteBtn);
+
+            } catch (error) {
+                console.error('Failed to load wallpapers:', error);
+            }
+        }
+
+        // Button to select wallpaper
+        document.getElementById('selectWallpaperBtn').addEventListener('click', () => {
+            window.location.href = 'wallpaper-selector.html';
+        });
+    </script>
+</body>
+</html>

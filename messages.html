@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pesan Masuk</title>
+    <style>
+        body, html {
+            margin: 0; padding: 0; height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: url('wallpaper/1758164967160.jpg') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
+            display: flex;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(255, 255, 255, 0.8);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .sidebar {
+            width: 220px;
+            background-color: #2c3e50;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding-top: 20px;
+            z-index: 2;
+        }
+        .sidebar a {
+            color: white;
+            padding: 15px 20px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s;
+        }
+        .sidebar a:hover {
+            background-color: #34495e;
+        }
+        .sidebar .user-info {
+            margin-top: auto;
+            padding: 20px;
+            text-align: center;
+        }
+        .sidebar .user-info img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+        .content {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+        .chat-container {
+            width: 360px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-header {
+            background-color: #075e54;
+            color: white;
+            padding: 15px;
+            font-weight: 700;
+            font-size: 18px;
+            text-align: center;
+        }
+        .messages {
+            flex-grow: 1;
+            padding: 10px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .message {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            opacity: 0;
+            transform: translateX(-20px);
+            animation: slideIn 0.3s forwards;
+        }
+        .message .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            object-fit: cover;
+        }
+        .message .content {
+            background-color: #dcf8c6;
+            padding: 10px 15px;
+            border-radius: 10px;
+            max-width: 70%;
+            position: relative;
+            font-size: 14px;
+            color: #202c33;
+        }
+        .message .content::after {
+            content: "";
+            position: absolute;
+            top: 10px;
+            left: -8px;
+            width: 0;
+            height: 0;
+            border-top: 8px solid transparent;
+            border-right: 8px solid #dcf8c6;
+            border-bottom: 8px solid transparent;
+        }
+        .message .meta {
+            font-size: 12px;
+            color: #999;
+            margin-top: 2px;
+            margin-left: 50px;
+        }
+        .sender-name {
+            font-weight: 600;
+            margin-bottom: 3px;
+            color: #075e54;
+        }
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+<body>
+<nav class="sidebar">
+  <a href="index.html">Home</a>
+  <a href="profil.html">Profil</a>
+  <a href="portfolio.html">Portofolio</a>
+  <a href="chat.html">Chat</a>
+  <a href="messages.html">Messages</a>
+  <a href="settings.html">Settings</a>
+  <a href="login.html">Login</a>
+  <div class="user-info" id="userInfo" style="display: none;">
+    <img id="userPhoto" src="" alt="Profile Photo">
+    <p id="userName"></p>
+  </div>
+</nav>
+<main class="content">
+    <div class="chat-container">
+        <div class="chat-header">Pesan Masuk</div>
+        <div class="messages" id="messages"></div>
+    </div>
+
+    <script>
+        const messagesEl = document.getElementById('messages');
+
+        // Example messages data
+        const messages = [
+            {
+                sender: 'wok',
+                avatar: 'uploads/1758175204870.jpg',
+                text: 'Aneh memang',
+                time: '12:43'
+            },
+            // Add more messages here if needed
+        ];
+
+        // Function to create message element
+        function createMessageElement({ sender, avatar, text, time }) {
+            const messageEl = document.createElement('div');
+            messageEl.classList.add('message');
+
+            const avatarEl = document.createElement('img');
+            avatarEl.classList.add('avatar');
+            avatarEl.src = avatar;
+            avatarEl.alt = sender;
+
+            const contentEl = document.createElement('div');
+            contentEl.classList.add('content');
+
+        const senderNameEl = document.createElement('div');
+        senderNameEl.classList.add('sender-name');
+        senderNameEl.textContent = sender;
+        senderNameEl.style.marginBottom = '0'; // Move username up closer to text
+
+        const textEl = document.createElement('div');
+        textEl.textContent = text;
+
+            const metaEl = document.createElement('div');
+            metaEl.classList.add('meta');
+            metaEl.textContent = time;
+
+            contentEl.appendChild(senderNameEl);
+            contentEl.appendChild(textEl);
+
+            messageEl.appendChild(avatarEl);
+            messageEl.appendChild(contentEl);
+            messageEl.appendChild(metaEl);
+
+            return messageEl;
+        }
+
+        // Function to simulate message arrival with delay
+        async function showMessages() {
+            for (const msg of messages) {
+                const msgEl = createMessageElement(msg);
+                messagesEl.appendChild(msgEl);
+                await new Promise(resolve => setTimeout(resolve, 1000)); // 1 second delay
+            }
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+        }
+
+        showMessages();
+    </script>
+</body>
+</html>

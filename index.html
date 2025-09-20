@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dashboard</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .sidebar {
+            width: 220px;
+            background-color: #2c3e50;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding-top: 20px;
+        }
+        .sidebar a {
+            color: white;
+            padding: 15px 20px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s;
+        }
+        .sidebar a:hover {
+            background-color: #34495e;
+        }
+        .sidebar .user-info {
+            margin-top: auto;
+            padding: 20px;
+            text-align: center;
+        }
+        .sidebar .user-info img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+            overflow-y: auto;
+        }
+        h1 {
+            margin-top: 0;
+        }
+        form {
+            max-width: 400px;
+            margin-bottom: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        input[type="text"], textarea, input[type="file"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+        button {
+            margin-top: 15px;
+            padding: 10px;
+            width: 100%;
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #34495e;
+        }
+        .photo-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .photo-item {
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            overflow: hidden;
+            display: flex;
+            flex-direction: row;
+        }
+        .photo-item img {
+            width: 150px;
+            height: 100px;
+            object-fit: cover;
+        }
+        .photo-info {
+            padding: 10px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+        .photo-description {
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: #fff;
+            text-align: left;
+        }
+        .photo-author {
+            font-size: 12px;
+            color: #ddd;
+            text-align: left;
+        }
+        /* Dark mode styles */
+        body.dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        body.dark-mode .sidebar {
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+        }
+        body.dark-mode .sidebar a {
+            color: #e0e0e0;
+        }
+        body.dark-mode .sidebar a:hover {
+            background-color: #333333;
+        }
+        body.dark-mode .content {
+            background-color: #181818;
+            color: #e0e0e0;
+        }
+        body.dark-mode form, body.dark-mode .photo-item {
+            background-color: #1e1e1e;
+            box-shadow: 0 0 10px rgba(255,255,255,0.1);
+        }
+        body.dark-mode input, body.dark-mode textarea {
+            background-color: #2a2a2a;
+            border: 1px solid #444;
+            color: #e0e0e0;
+        }
+        body.dark-mode button {
+            background-color: #2980b9;
+        }
+        body.dark-mode button:hover {
+            background-color: #21618c;
+        }
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            background: #000;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(255,255,255,0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 8px;
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 30px;
+            color: white;
+            cursor: pointer;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+    <nav class="sidebar">
+        <a href="index.html">Home</a>
+        <a href="profil.html">Profil</a>
+         <a href="portfolio.html">Portofolio</a>
+           <a href="chat.html">Chat</a>
+  <a href="messages.html">Messages</a>
+        <a href="settings.html">Settings</a>
+        <a href="login.html">Login</a>
+        <div class="user-info" id="userInfo" style="display: none;">
+            <img id="userPhoto" src="" alt="Profile Photo">
+            <p id="userName"></p>
+        </div>
+    </nav>
+    <main class="content">
+        <button id="uploadBtn" style="width: auto; padding: 10px 20px;">Upload Foto</button>
+        <form id="uploadForm" enctype="multipart/form-data" style="display: none;">
+            <label for="photo">Foto:</label>
+            <input type="file" id="photo" name="photo" accept="image/*" required />
+            <label for="author">Nama Penulis:</label>
+            <input type="text" id="author" name="author" required />
+            <label for="description">Deskripsi:</label>
+            <textarea id="description" name="description" required></textarea>
+            <button type="submit">Upload</button>
+        </form>
+        <h1>Foto yang sudah diupload</h1>
+        <div class="photo-grid" id="photoGrid"></div>
+    </main>
+
+    <script src="theme.js"></script>
+    <script>
+        // Load dark mode preference
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.body.classList.add('dark-mode');
+        }
+
+        // Apply saved text color
+        const savedTextColor = localStorage.getItem('textColor');
+        if (savedTextColor && savedTextColor !== 'default') {
+            document.body.style.color = savedTextColor;
+            const content = document.querySelector('.content');
+            if (content) {
+                content.style.color = savedTextColor;
+            }
+        }
+
+        // Display user info if logged in
+        const username = localStorage.getItem('username');
+        const photo = localStorage.getItem('photo');
+        if (username) {
+            document.getElementById('userInfo').style.display = 'block';
+            document.getElementById('userName').textContent = username;
+            if (photo) {
+                document.getElementById('userPhoto').src = '/uploads/' + photo;
+            }
+        }
+
+        const uploadBtn = document.getElementById('uploadBtn');
+        const uploadForm = document.getElementById('uploadForm');
+        const photoGrid = document.getElementById('photoGrid');
+
+        // Toggle upload form
+        uploadBtn.addEventListener('click', () => {
+            if (uploadForm.style.display === 'none') {
+                uploadForm.style.display = 'block';
+            } else {
+                uploadForm.style.display = 'none';
+            }
+        });
+
+        async function fetchPhotos() {
+            try {
+                const response = await fetch('/api/photos');
+                const data = await response.json();
+                photoGrid.innerHTML = '';
+                data.photos.forEach(photo => {
+                    const div = document.createElement('div');
+                    div.className = 'photo-item';
+                    div.innerHTML = `
+                        <img src="${photo.path}" alt="Foto" />
+                        <div class="photo-info">
+                            <div class="photo-author">Oleh: ${photo.author}</div>
+                            <div class="photo-description">${photo.description}</div>
+                        </div>
+                    `;
+                    photoGrid.appendChild(div);
+                });
+            } catch (error) {
+                console.error('Gagal memuat foto:', error);
+            }
+        }
+
+        uploadForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(uploadForm);
+            try {
+                const response = await fetch('/api/upload-photo', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+                alert(result.message);
+                if (response.ok) {
+                    uploadForm.reset();
+                    uploadForm.style.display = 'none';
+                    fetchPhotos();
+                }
+            } catch (error) {
+                alert('Gagal mengupload foto: ' + error.message);
+            }
+        });
+
+        // Initial load of photos
+        fetchPhotos();
+
+        // Modal elements
+        const modal = document.createElement('div');
+        modal.classList.add('modal');
+        modal.id = 'photoModal';
+        modal.innerHTML = `
+            <div class="modal-content">
+                <span class="close-btn" id="closeModal">&times;</span>
+                <img id="modalImage" src="" alt="Foto Besar" />
+            </div>
+        `;
+        document.body.appendChild(modal);
+
+        const modalImage = document.getElementById('modalImage');
+        const closeModalBtn = document.getElementById('closeModal');
+
+        // Open modal on photo click
+        photoGrid.addEventListener('click', (e) => {
+            const photoItem = e.target.closest('.photo-item');
+            if (!photoItem) return;
+            const img = photoItem.querySelector('img');
+            if (!img) return;
+            modalImage.src = img.src;
+            modal.style.display = 'flex';
+        });
+
+        // Close modal on close button click
+        closeModalBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+            modalImage.src = '';
+        });
+
+        // Close modal on outside click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                modalImage.src = '';
+            }
+        });
+    </script>
+</body>
+</html>

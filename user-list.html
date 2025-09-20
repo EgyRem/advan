@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Daftar Pengguna</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .sidebar {
+            width: 220px;
+            background-color: #2c3e50;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding-top: 20px;
+        }
+        .sidebar a {
+            color: white;
+            padding: 15px 20px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s;
+        }
+        .sidebar a:hover {
+            background-color: #34495e;
+        }
+        .sidebar .user-info {
+            margin-top: auto;
+            padding: 20px;
+            text-align: center;
+        }
+        .sidebar .user-info img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            display: flex;
+            gap: 40px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .user-list {
+            flex: 1;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            overflow-y: auto;
+        }
+        .user-list h2 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        .user-item {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .user-item .user-info strong {
+            display: block;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        .user-item .user-info .role {
+            color: #666;
+        }
+        .user-item .actions {
+            display: flex;
+            gap: 10px;
+        }
+        .delete-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
+        /* Dark mode styles */
+        body.dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        body.dark-mode .sidebar {
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+        }
+        body.dark-mode .sidebar a {
+            color: #e0e0e0;
+        }
+        body.dark-mode .sidebar a:hover {
+            background-color: #333333;
+        }
+        body.dark-mode .content {
+            background-color: #181818;
+            color: #e0e0e0;
+        }
+        body.dark-mode .user-list {
+            background-color: #1e1e1e;
+            box-shadow: 0 0 10px rgba(255,255,255,0.1);
+        }
+        body.dark-mode .user-item {
+            border-color: #444;
+        }
+        body.dark-mode .user-item .role {
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <nav class="sidebar">
+        <a href="index.html">Home</a>
+        <a href="profil.html">Profil</a>
+        <a href="portfolio.html">Portofolio</a>
+        <a href="chat.html">Chat</a>
+        <a href="messages.html">Messages</a>
+        <a href="settings.html">Settings</a>
+        <a href="login.html">Login</a>
+        <a href="user-list.html">Daftar Pengguna</a>
+        <div class="user-info" id="userInfo" style="display: none;">
+            <img id="userPhoto" src="" alt="Foto Profil" />
+            <p id="userName"></p>
+        </div>
+    </nav>
+    <main class="content">
+        <section class="user-list" id="adminUsers">
+            <h2>Admin</h2>
+        </section>
+        <section class="user-list" id="memberUsers">
+            <h2>Member</h2>
+        </section>
+        <section class="user-list" id="addUserSection">
+            <h2>Tambah Pengguna Baru</h2>
+            <form id="addUserForm" enctype="multipart/form-data" style="display: grid; grid-template-columns: 1fr 2fr; gap: 10px 20px; align-items: center; max-width: 400px;">
+                <input type="hidden" name="added_by" id="added_by" />
+                <label for="username" style="text-align: right;">Username:</label>
+                <input type="text" id="username" name="username" required style="width: 100%;" />
+                <label for="password" style="text-align: right;">Password:</label>
+                <input type="password" id="password" name="password" required style="width: 100%;" />
+                <label for="confirm_password" style="text-align: right;">Konfirmasi Password:</label>
+                <input type="password" id="confirm_password" name="confirm_password" required style="width: 100%;" />
+                <label for="role" style="text-align: right;">Role:</label>
+                <select id="role" name="role" required style="width: 100%;">
+                    <option value="member">Member</option>
+                    <option value="admin">Admin</option>
+                </select>
+                <label for="profile_photo" style="text-align: right;">Foto Profil (opsional):</label>
+                <input type="file" id="profile_photo" name="profile_photo" accept="image/*" />
+                <div></div>
+                <button type="submit" style="width: 100%;">Tambah Pengguna</button>
+            </form>
+            <div id="formMessage" style="margin-top: 10px; color: red;"></div>
+        </section>
+    </main>
+    <script src="users.js"></script>
+    <script>
+        // Set added_by from localStorage
+        document.getElementById('added_by').value = localStorage.getItem('username') || '';
+
+        const addUserForm = document.getElementById('addUserForm');
+        const formMessage = document.getElementById('formMessage');
+
+        addUserForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            formMessage.textContent = '';
+            const formData = new FormData(addUserForm);
+            try {
+                const response = await fetch('/api/add-user', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+                if (response.ok) {
+                    formMessage.style.color = 'green';
+                    formMessage.textContent = result.message;
+                    addUserForm.reset();
+                    // Reload user lists
+                    if (typeof loadUsers === 'function') {
+                        loadUsers();
+                    }
+                } else {
+                    formMessage.style.color = 'red';
+                    formMessage.textContent = result.message || 'Terjadi kesalahan';
+                }
+            } catch (error) {
+                formMessage.style.color = 'red';
+                formMessage.textContent = 'Gagal menambah pengguna: ' + error.message;
+            }
+        });
+    </script>
+    <script src="theme.js"></script>
+</body>
+</html>

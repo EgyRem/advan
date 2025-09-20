@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Profil</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .sidebar {
+            width: 220px;
+            background-color: #2c3e50;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding-top: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .sidebar a {
+            color: white;
+            padding: 15px 20px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s;
+        }
+        .sidebar a:hover {
+            background-color: #34495e;
+        }
+        .sidebar .user-info {
+            margin-top: auto;
+            padding: 20px;
+            text-align: center;
+        }
+        .sidebar .user-info img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+            overflow-y: auto;
+        }
+        h1 {
+            margin-top: 0;
+        }
+        .profile-container {
+            display: flex;
+            gap: 30px;
+            max-width: 800px;
+        }
+        .profile-photo {
+            flex: 1;
+            text-align: center;
+        }
+        .profile-photo img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #2c3e50;
+            transition: border-color 0.3s;
+        }
+        .profile-info {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .profile-info h2 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        .info-item {
+            margin-bottom: 15px;
+        }
+        .info-label {
+            font-weight: bold;
+            color: #34495e;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .info-value {
+            color: #555;
+            font-size: 16px;
+        }
+        /* Dark mode styles */
+        body.dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        body.dark-mode .sidebar {
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+        }
+        body.dark-mode .sidebar a {
+            color: #e0e0e0;
+        }
+        body.dark-mode .sidebar a:hover {
+            background-color: #333333;
+        }
+        body.dark-mode .content {
+            background-color: #181818;
+            color: #e0e0e0;
+        }
+        body.dark-mode .profile-info {
+            background: rgba(30, 30, 30, 0.9);
+            box-shadow: 0 0 10px rgba(255,255,255,0.1);
+        }
+        body.dark-mode .profile-info h2 {
+            color: #e0e0e0;
+        }
+        body.dark-mode .info-label {
+            color: #bbb;
+        }
+        body.dark-mode .info-value {
+            color: #ddd;
+        }
+        body.dark-mode .profile-photo img {
+            border-color: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <nav class="sidebar">
+        <a href="index.html">Home</a>
+        <a href="profil.html">Profil</a>
+        <a href="portfolio.html">Portofolio</a>   
+        <a href="chat.html">Chat</a>
+        <a href="messages.html">Messages</a>
+        <a href="settings.html">Settings</a>
+        <a href="login.html">Login</a>
+
+        <div class="user-info" id="userInfo" style="display: none;">
+            <img id="userPhoto" src="" alt="Profile Photo">
+            <p id="userName"></p>
+        </div>
+    </nav>
+    <main class="content">
+        <h1>Profil Pengguna</h1>
+        <div class="profile-container">
+        <div class="profile-photo">
+            <img id="profileImage" src="/uploads/default-profile.png" alt="Foto Profil" />
+            <button id="editPhotoBtn" style="margin-top: 10px; padding: 6px 12px; background-color: #2980b9; color: white; border: none; border-radius: 5px; cursor: pointer;">Edit Foto</button>
+        </div>
+        <div class="profile-info">
+            <h2>Informasi Identitas</h2>
+            <div class="info-item">
+                <span class="info-label">Nama:</span>
+                <span class="info-value" id="userNameDisplay">-</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Nomor WhatsApp:</span>
+                <span class="info-value" id="whatsappNumber">-</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Akun Instagram:</span>
+                <span class="info-value" id="instagramAccount">-</span>
+            </div>
+            <button id="editProfileBtn" style="margin-top: 20px; padding: 10px 20px; background-color: #2980b9; color: white; border: none; border-radius: 5px; cursor: pointer;">Edit Profil</button>
+        </div>
+        </div>
+    </main>
+
+    <script src="theme.js"></script>
+    <script>
+        // Load dark mode preference
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.body.classList.add('dark-mode');
+        }
+
+        // Apply saved text color
+        const savedTextColor = localStorage.getItem('textColor');
+        if (savedTextColor && savedTextColor !== 'default') {
+            document.body.style.color = savedTextColor;
+            const content = document.querySelector('.content');
+            if (content) {
+                content.style.color = savedTextColor;
+            }
+        }
+
+        // Display user info if logged in
+        const username = localStorage.getItem('username');
+        const photo = localStorage.getItem('photo');
+        if (username) {
+            document.getElementById('userInfo').style.display = 'block';
+            document.getElementById('userName').textContent = username;
+            document.getElementById('userNameDisplay').textContent = username;
+            if (photo) {
+                document.getElementById('userPhoto').src = '/uploads/' + photo;
+                document.getElementById('profileImage').src = '/uploads/' + photo;
+            }
+        }
+
+        // Load additional profile information
+        async function loadProfileInfo() {
+            try {
+                const username = localStorage.getItem('username');
+                if (!username) {
+                    console.error('No username found in localStorage');
+                    return;
+                }
+
+                const response = await fetch(`/api/profile?username=${encodeURIComponent(username)}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('whatsappNumber').textContent = data.whatsapp || '-';
+                    document.getElementById('instagramAccount').textContent = data.instagram || '-';
+                }
+            } catch (error) {
+                console.error('Failed to load profile info:', error);
+            }
+        }
+
+        // Load profile info on page load
+        loadProfileInfo();
+
+        // Edit profile functionality
+        document.getElementById('editProfileBtn').addEventListener('click', () => {
+            showEditProfileModal();
+        });
+
+        document.getElementById('editPhotoBtn').addEventListener('click', () => {
+            showEditPhotoModal();
+        });
+
+        function showEditProfileModal() {
+            // Create modal for editing profile
+            const modal = document.createElement('div');
+            modal.id = 'editProfileModal';
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
+            `;
+
+            modal.innerHTML = `
+                <div style="background: white; padding: 30px; border-radius: 10px; max-width: 500px; width: 90%; box-shadow: 0 0 20px rgba(0,0,0,0.3);">
+                    <h2 style="margin-top: 0; color: #2c3e50;">Edit Profil</h2>
+                    <form id="editProfileForm">
+                        <div style="margin-bottom: 15px;">
+                            <label for="editWhatsapp" style="display: block; margin-bottom: 5px; font-weight: bold;">Nomor WhatsApp:</label>
+                            <input type="text" id="editWhatsapp" name="whatsapp" placeholder="08xxxxxxxxxx" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;" />
+                        </div>
+                        <div style="margin-bottom: 20px;">
+                            <label for="editInstagram" style="display: block; margin-bottom: 5px; font-weight: bold;">Akun Instagram:</label>
+                            <input type="text" id="editInstagram" name="instagram" placeholder="@username" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;" />
+                        </div>
+                        <div style="text-align: right;">
+                            <button type="button" id="cancelEditBtn" style="margin-right: 10px; padding: 8px 16px; background-color: #95a5a6; color: white; border: none; border-radius: 4px; cursor: pointer;">Batal</button>
+                            <button type="submit" style="padding: 8px 16px; background-color: #2980b9; color: white; border: none; border-radius: 4px; cursor: pointer;">Simpan</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+
+            // Pre-fill form with current data
+            document.getElementById('editWhatsapp').value = document.getElementById('whatsappNumber').textContent !== '-' ? document.getElementById('whatsappNumber').textContent : '';
+            document.getElementById('editInstagram').value = document.getElementById('instagramAccount').textContent !== '-' ? document.getElementById('instagramAccount').textContent : '';
+
+            // Handle form submission
+            document.getElementById('editProfileForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                const whatsapp = formData.get('whatsapp');
+                const instagram = formData.get('instagram');
+
+                const username = localStorage.getItem('username');
+                if (!username) {
+                    alert('Username tidak ditemukan. Silakan login kembali.');
+                    return;
+                }
+
+                try {
+                    const response = await fetch('/api/update-profile', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'x-username': username
+                        },
+                        body: JSON.stringify({ whatsapp, instagram })
+                    });
+
+                    if (response.ok) {
+                        alert('Profil berhasil diperbarui!');
+                        document.body.removeChild(modal);
+                        loadProfileInfo(); // Reload profile info
+                    } else {
+                        const errorData = await response.json();
+                        alert('Gagal memperbarui profil: ' + (errorData.message || 'Unknown error'));
+                    }
+                } catch (error) {
+                    alert('Terjadi kesalahan: ' + error.message);
+                }
+            });
+
+            // Handle cancel button
+            document.getElementById('cancelEditBtn').addEventListener('click', () => {
+                document.body.removeChild(modal);
+            });
+
+            // Close modal when clicking outside
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            });
+        }
+
+        function showEditPhotoModal() {
+            const modal = document.createElement('div');
+            modal.id = 'editPhotoModal';
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
+            `;
+
+            modal.innerHTML = `
+                <div style="background: white; padding: 30px; border-radius: 10px; max-width: 400px; width: 90%; box-shadow: 0 0 20px rgba(0,0,0,0.3);">
+                    <h2 style="margin-top: 0; color: #2c3e50;">Edit Foto Profil</h2>
+                    <form id="editPhotoForm" enctype="multipart/form-data">
+                        <input type="file" id="newProfilePhoto" name="profile_photo" accept="image/*" required style="margin-bottom: 20px;"/>
+                        <div style="text-align: right;">
+                            <button type="button" id="cancelPhotoBtn" style="margin-right: 10px; padding: 8px 16px; background-color: #95a5a6; color: white; border: none; border-radius: 4px; cursor: pointer;">Batal</button>
+                            <button type="submit" style="padding: 8px 16px; background-color: #2980b9; color: white; border: none; border-radius: 4px; cursor: pointer;">Simpan</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+
+            // Handle cancel button
+            document.getElementById('cancelPhotoBtn').addEventListener('click', () => {
+                document.body.removeChild(modal);
+            });
+
+            // Handle form submission
+            document.getElementById('editPhotoForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const form = e.target;
+                const formData = new FormData(form);
+
+                const username = localStorage.getItem('username');
+                if (!username) {
+                    alert('Username tidak ditemukan. Silakan login kembali.');
+                    return;
+                }
+
+                try {
+                    const response = await fetch('/api/update-profile-photo', {
+                        method: 'POST',
+                        // Important: Do NOT set Content-Type header when sending FormData
+                        headers: {
+                            'x-username': username
+                        },
+                        body: formData
+                    });
+
+                    if (response.ok) {
+                        alert('Foto profil berhasil diperbarui!');
+                        document.body.removeChild(modal);
+                        // Update profile photo on page
+                        const data = await response.json();
+                        const newPhoto = data.profile_photo;
+                        if (newPhoto) {
+                            document.getElementById('profileImage').src = '/uploads/' + newPhoto;
+                            document.getElementById('userPhoto').src = '/uploads/' + newPhoto;
+                            localStorage.setItem('photo', newPhoto);
+                        }
+                    } else {
+                        const errorData = await response.json();
+                        alert('Gagal memperbarui foto profil: ' + (errorData.message || 'Unknown error'));
+                    }
+                } catch (error) {
+                    alert('Terjadi kesalahan: ' + error.message);
+                }
+            });
+
+            // Close modal when clicking outside
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "filename": "photo-1758082311778-40808707.jpg",
+    "textFilename": "photo-1758082311778-40808707.txt",
+    "description": "qwqklwqwkqwkqkwkqwkqwkk",
+    "author": "qwkkqwkwqkkqwkqwk",
+    "path": "/uploads/photo-1758082311778-40808707.jpg",
+    "textPath": "/uploads/photo-1758082311778-40808707.txt"
+  },
+  {
+    "id": 2,
+    "filename": "photo-1758083037573-265734170.png",
+    "textFilename": "photo-1758083037573-265734170.txt",
+    "description": "nanami",
+    "author": "rem",
+    "path": "/uploads/photo-1758083037573-265734170.png",
+    "textPath": "/uploads/photo-1758083037573-265734170.txt"
+  },
+  {
+    "id": 3,
+    "filename": "photo-1758083135485-576531037.jpg",
+    "textFilename": "photo-1758083135485-576531037.txt",
+    "description": "rower",
+    "author": "qwqw",
+    "path": "/uploads/photo-1758083135485-576531037.jpg",
+    "textPath": "/uploads/photo-1758083135485-576531037.txt"
+  },
+  {
+    "id": 4,
+    "filename": "photo-1758169772743-759330112.jpg",
+    "textFilename": "photo-1758169772743-759330112.txt",
+    "description": "wqwqwq",
+    "author": "rem",
+    "path": "/uploads/photo-1758169772743-759330112.jpg",
+    "textPath": "/uploads/photo-1758169772743-759330112.txt"
+  }
+]

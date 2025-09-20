@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Portofolio Pengguna</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .sidebar {
+            width: 220px;
+            background-color: #2c3e50;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding-top: 20px;
+        }
+        .sidebar a {
+            color: white;
+            padding: 15px 20px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s;
+        }
+        .sidebar a:hover {
+            background-color: #34495e;
+        }
+        .sidebar .user-info {
+            margin-top: auto;
+            padding: 20px;
+            text-align: center;
+        }
+        .sidebar .user-info img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+            overflow-y: auto;
+        }
+        h1 {
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+        #portfolioList {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+            padding: 0;
+            list-style: none;
+        }
+        .portfolio-item {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 12px;
+            box-sizing: border-box;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            transition: box-shadow 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .portfolio-item:hover {
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        .portfolio-item img, .portfolio-item video {
+            max-width: 100%;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            object-fit: cover;
+            max-height: 150px;
+        }
+        form {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            max-width: 700px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #34495e;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 20px;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            resize: vertical;
+            font-size: 15px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: border-color 0.3s ease;
+        }
+        textarea:focus {
+            border-color: #2980b9;
+            outline: none;
+        }
+        input[type="file"] {
+            margin-bottom: 25px;
+            font-size: 14px;
+            color: #555;
+        }
+        button {
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            padding: 12px 22px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #1f6391;
+        }
+        #message {
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: #e74c3c;
+            text-align: center;
+        }
+        #message.success {
+            color: #27ae60;
+        }
+        /* Dark mode styles */
+        body.dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        body.dark-mode .sidebar {
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+        }
+        body.dark-mode .sidebar a {
+            color: #e0e0e0;
+        }
+        body.dark-mode .sidebar a:hover {
+            background-color: #333333;
+        }
+        body.dark-mode .content {
+            background-color: #181818;
+            color: #e0e0e0;
+        }
+        body.dark-mode form, body.dark-mode .portfolio-item {
+            background-color: #1e1e1e;
+            box-shadow: 0 0 10px rgba(255,255,255,0.1);
+        }
+        body.dark-mode input, body.dark-mode textarea {
+            background-color: #2a2a2a;
+            border: 1px solid #444;
+            color: #e0e0e0;
+        }
+        body.dark-mode button {
+            background-color: #2980b9;
+        }
+        body.dark-mode button:hover {
+            background-color: #21618c;
+        }
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            background: #000;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(255,255,255,0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content img, .modal-content video {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 8px;
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 30px;
+            color: white;
+            cursor: pointer;
+            user-select: none;
+        }
+        @media (max-width: 600px) {
+            .sidebar {
+                width: 180px;
+            }
+            form {
+                padding: 20px;
+            }
+            .portfolio-item img, .portfolio-item video {
+                max-height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="sidebar">
+        <a href="index.html">Home</a>
+        <a href="profil.html">Profil</a>
+         <a href="portfolio.html">Portofolio</a>
+        <a href="chat.html">Chat</a>
+        <a href="messages.html">Messages</a>
+        <a href="settings.html">Settings</a>
+        <a href="login.html">Login</a>
+        <div class="user-info" id="userInfo" style="display: none;">
+            <img id="userPhoto" src="" alt="Profile Photo">
+            <p id="userName"></p>
+        </div>
+    </nav>
+    <main class="content">
+        <h1>Portofolio Pengguna</h1>
+        <button id="toggleUploadForm" style="margin-bottom: 15px; padding: 8px 12px; font-size: 24px; cursor: pointer; float: left;">+</button>
+        <div style="clear: both;"></div>
+        <form id="uploadForm" enctype="multipart/form-data" style="display:none;">
+            <div id="message"></div>
+            <label for="description">Deskripsi Portofolio:</label>
+            <textarea id="description" name="description" placeholder="Masukkan deskripsi portofolio..."></textarea>
+            <label for="files">Upload File (gambar/video):</label>
+            <input type="file" id="files" name="files" accept="image/*,video/*" multiple />
+            <button type="submit">Simpan Portofolio</button>
+        </form>
+        <ul id="portfolioList"></ul>
+    </main>
+
+    <script src="theme.js"></script>
+        <script>
+            const username = localStorage.getItem('username');
+            const messageDiv = document.getElementById('message');
+            const portfolioList = document.getElementById('portfolioList');
+            const uploadForm = document.getElementById('uploadForm');
+            const toggleUploadFormBtn = document.getElementById('toggleUploadForm');
+
+            // Load dark mode preference
+            if (localStorage.getItem('darkMode') === 'enabled') {
+                document.body.classList.add('dark-mode');
+            }
+
+            // Apply saved text color
+            const savedTextColor = localStorage.getItem('textColor');
+            if (savedTextColor && savedTextColor !== 'default') {
+                document.body.style.color = savedTextColor;
+                const content = document.querySelector('.content');
+                if (content) {
+                    content.style.color = savedTextColor;
+                }
+            }
+
+            // Display user info if logged in
+            const photo = localStorage.getItem('photo');
+            if (username) {
+                document.getElementById('userInfo').style.display = 'block';
+                document.getElementById('userName').textContent = username;
+                if (photo) {
+                    document.getElementById('userPhoto').src = '/uploads/' + photo;
+                }
+            }
+
+            if (!username) {
+                messageDiv.textContent = 'Anda harus login terlebih dahulu.';
+                uploadForm.style.display = 'none';
+                toggleUploadFormBtn.style.display = 'none';
+            } else {
+                loadPortfolio();
+            }
+
+            toggleUploadFormBtn.addEventListener('click', () => {
+                if (uploadForm.style.display === 'none') {
+                    uploadForm.style.display = 'block';
+                    toggleUploadFormBtn.textContent = '-';
+                } else {
+                    uploadForm.style.display = 'none';
+                    toggleUploadFormBtn.textContent = '+';
+                }
+            });
+
+            async function loadPortfolio() {
+                try {
+                    const res = await fetch(`/api/portfolio?username=${encodeURIComponent(username)}`);
+                    if (!res.ok) throw new Error('Gagal memuat portofolio.');
+                    const data = await res.json();
+                    document.getElementById('description').value = data.description || '';
+                    displayPortfolioItems(data.items || []);
+                } catch (err) {
+                    messageDiv.textContent = err.message;
+                }
+            }
+
+            function displayPortfolioItems(items) {
+                portfolioList.innerHTML = '';
+                if (items.length === 0) {
+                    portfolioList.innerHTML = '<li>Belum ada file portofolio.</li>';
+                    return;
+                }
+                items.forEach(item => {
+                    const li = document.createElement('li');
+                    li.className = 'portfolio-item';
+                    if (item.mimetype.startsWith('image/')) {
+                        const img = document.createElement('img');
+                        img.src = item.url;
+                        img.alt = item.originalname || 'Gambar portofolio';
+                        li.appendChild(img);
+                    } else if (item.mimetype.startsWith('video/')) {
+                        const video = document.createElement('video');
+                        video.src = item.url;
+                        video.controls = true;
+                        li.appendChild(video);
+                    }
+                    portfolioList.appendChild(li);
+                });
+            }
+
+            uploadForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                messageDiv.textContent = '';
+                messageDiv.classList.remove('success');
+                const formData = new FormData(uploadForm);
+                try {
+                    const res = await fetch('/api/portfolio/upload', {
+                        method: 'POST',
+                        headers: {
+                            'x-username': username
+                        },
+                        body: formData
+                    });
+                    if (!res.ok) {
+                        const errorData = await res.json();
+                        throw new Error(errorData.message || 'Gagal menyimpan portofolio.');
+                    }
+                    messageDiv.classList.add('success');
+                    messageDiv.textContent = 'Portofolio berhasil disimpan.';
+                    loadPortfolio();
+                    uploadForm.reset();
+                } catch (err) {
+                    messageDiv.textContent = err.message;
+                }
+            });
+
+            // Modal elements
+            const modal = document.createElement('div');
+            modal.classList.add('modal');
+            modal.id = 'portfolioModal';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <span class="close-btn" id="closeModal">&times;</span>
+                    <img id="modalImage" src="" alt="Media Besar" style="display: none;" />
+                    <video id="modalVideo" src="" controls style="display: none;"></video>
+                </div>
+            `;
+            document.body.appendChild(modal);
+
+            const modalImage = document.getElementById('modalImage');
+            const modalVideo = document.getElementById('modalVideo');
+            const closeModalBtn = document.getElementById('closeModal');
+
+            // Open modal on portfolio item click
+            portfolioList.addEventListener('click', (e) => {
+                const item = e.target.closest('.portfolio-item');
+                if (!item) return;
+                const img = item.querySelector('img');
+                const video = item.querySelector('video');
+                if (img) {
+                    modalImage.src = img.src;
+                    modalImage.style.display = 'block';
+                    modalVideo.style.display = 'none';
+                } else if (video) {
+                    modalVideo.src = video.src;
+                    modalVideo.style.display = 'block';
+                    modalImage.style.display = 'none';
+                }
+                modal.style.display = 'flex';
+            });
+
+            // Close modal on close button click
+            closeModalBtn.addEventListener('click', () => {
+                modal.style.display = 'none';
+                modalImage.src = '';
+                modalVideo.src = '';
+            });
+
+            // Close modal on outside click
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                    modalImage.src = '';
+                    modalVideo.src = '';
+                }
+            });
+
+    </script>
+</body>
+</html>

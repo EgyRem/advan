@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>User Dashboard</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .sidebar {
+            width: 220px;
+            background-color: #2c3e50;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding-top: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .sidebar a {
+            color: white;
+            padding: 15px 20px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s;
+        }
+        .sidebar a:hover {
+            background-color: #34495e;
+        }
+        .sidebar .user-info {
+            margin-top: auto;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .sidebar .user-info img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        h1 {
+            margin-top: 0;
+        }
+        /* Dark mode styles */
+        body.dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        body.dark-mode .sidebar {
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+        }
+        body.dark-mode .sidebar a {
+            color: #e0e0e0;
+        }
+        body.dark-mode .sidebar a:hover {
+            background-color: #333333;
+        }
+        body.dark-mode .content {
+            background-color: #181818;
+            color: #e0e0e0;
+        }
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #1a1a2e;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            color: white;
+            width: 300px;
+            position: relative;
+        }
+        body.dark-mode .modal-content {
+            background-color: #2a2a3e;
+            color: #e0e0e0;
+        }
+        .modal-content img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 4px solid #e94560;
+            margin-bottom: 20px;
+            object-fit: cover;
+        }
+        .modal-content .username {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <nav class="sidebar">
+        <a href="user.html">Home</a>
+        <a href="portfolio.html">Portofolio</a>
+       <a href="chat.html">Chat</a>
+        <a href="messages.html">Messages</a>
+        <a href="settings.html">Settings</a>
+        <a href="login.html">Login</a>
+        <a href="profil.html" id="profileLink">Profile</a>
+        <div class="user-info">
+            <img id="profileImg" src="" alt="Profile" />
+            <div id="usernameDisplay"></div>
+            <div id="roleDisplay" style="font-size: 0.9rem; color: #ccc; margin-top: 4px;"></div>
+        </div>
+    </nav>
+    <main class="content">
+        <h1>Selamat datang, <span id="welcomeName"></span>!</h1>
+        <p>Dashboard user.</p>
+    </main>
+
+    <!-- Modal -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeModal">&times;</span>
+            <img id="modalProfileImg" src="" alt="Profile Photo" />
+            <div class="username" id="modalUsername">Username</div>
+        </div>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const username = urlParams.get('username');
+        const photo = urlParams.get('photo');
+
+        if (username) {
+            document.getElementById('usernameDisplay').textContent = username;
+            document.getElementById('welcomeName').textContent = username;
+            document.getElementById('modalUsername').textContent = username;
+            // Show role if available
+            const role = localStorage.getItem('role');
+            if (role) {
+                document.getElementById('roleDisplay').textContent = role === 'admin' ? 'Admin' : 'Member';
+            }
+        }
+        if (photo) {
+            document.getElementById('profileImg').src = '/uploads/' + photo;
+            document.getElementById('modalProfileImg').src = '/uploads/' + photo;
+        }
+
+        // Modal open/close logic
+        const profileImgSidebar = document.querySelector('.sidebar .user-info img');
+        const modal = document.getElementById('profileModal');
+        const closeModalBtn = document.getElementById('closeModal');
+
+        profileImgSidebar.addEventListener('click', () => {
+            modal.style.display = 'flex';
+        });
+
+        closeModalBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+    </script>
+    <script src="theme.js"></script>
+</body>
+</html>
