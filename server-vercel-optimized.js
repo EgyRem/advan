@@ -312,9 +312,49 @@ app.post('/api/update-profile-photo', upload.single('profile_photo'), (req, res)
   res.json({ message: 'Foto profil berhasil diperbarui', profile_photo: req.file.originalname });
 });
 
-// Serve index.html for root route
+// Serve HTML files
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+app.get('/login.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'login.html'));
+});
+
+app.get('/register.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'register.html'));
+});
+
+app.get('/chat.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'chat.html'));
+});
+
+app.get('/portfolio.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'portfolio.html'));
+});
+
+app.get('/profil.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'profil.html'));
+});
+
+app.get('/settings.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'settings.html'));
+});
+
+app.get('/user.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'user.html'));
+});
+
+app.get('/user-list.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'user-list.html'));
+});
+
+app.get('/messages.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'messages.html'));
+});
+
+app.get('/wallpaper-selector.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'wallpaper-selector.html'));
 });
 
 // Chat routes
