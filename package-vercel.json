@@ -1,18 +1,18 @@
 {
   "name": "api-web",
   "version": "1.0.0",
-  "main": "server.js",
+  "main": "server-vercel-optimized.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js",
+    "start": "node server-vercel-optimized.js",
+    "dev": "node server-vercel-optimized.js",
     "build": "echo 'Build complete'",
     "vercel-build": "echo 'Vercel build complete'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["web", "chat", "portfolio", "express"],
+  "keywords": ["web", "chat", "portfolio", "express", "vercel"],
   "author": "advan",
   "license": "ISC",
-  "description": "Complete web application with chat, user management, photo upload, and portfolio features",
+  "description": "Complete web application with chat, user management, photo upload, and portfolio features - Vercel optimized",
   "engines": {
     "node": ">=14.0.0"
   },
