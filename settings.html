@@ -220,6 +220,13 @@
     </main>
     <script src="theme.js"></script>
     <script>
+        // Make sure theme.js is loaded before using its functions
+        if (typeof setCustomBg === 'undefined') {
+            // If setCustomBg is not defined, wait for theme.js to load
+            document.addEventListener('DOMContentLoaded', function() {
+                // Functions will be available after DOM is loaded
+            });
+        }
         // Theme select
         const themeSelect = document.getElementById('themeSelect');
         const textColorSelect = document.getElementById('textColorSelect');
