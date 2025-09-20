@@ -312,13 +312,9 @@ app.post('/api/update-profile-photo', upload.single('profile_photo'), (req, res)
   res.json({ message: 'Foto profil berhasil diperbarui', profile_photo: req.file.originalname });
 });
 
-// Health check endpoint for Vercel
+// Serve index.html for root route
 app.get('/', (req, res) => {
-  res.json({
-    status: 'running',
-    message: 'Server is running on Vercel',
-    timestamp: new Date().toISOString()
-  });
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Chat routes
