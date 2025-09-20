@@ -1,0 +1,22 @@
+{
+  "name": "api-web",
+  "version": "1.0.0",
+  "main": "server-fixed.js",
+  "scripts": {
+    "start": "node server-fixed.js",
+    "dev": "node server-fixed.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["web", "chat", "portfolio", "express"],
+  "author": "advan",
+  "license": "ISC",
+  "description": "Complete web application with chat, user management, photo upload, and portfolio features",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "express": "^5.1.0",
+    "multer": "^2.0.2"
+  }
+}
